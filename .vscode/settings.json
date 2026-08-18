@@ -1,0 +1,6 @@
+{
+    "sqltools.format": {
+        // 空行設定
+        "linesBetweenQueries": 2
+    }
+}
