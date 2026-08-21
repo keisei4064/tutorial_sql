@@ -1,5 +1,4 @@
 -- 6-1
-
 -- 算術関数
 -- DDL
 CREATE TABLE SampleMath (m NUMERIC (10, 3), n INTEGER, p INTEGER);
@@ -88,7 +87,6 @@ VALUES ('ミックマック', 'ッ', 'っ');
 
 COMMIT;
 
-
 -- 6-2
 -- DDL：テーブル作成
 CREATE TABLE SampleLike (
@@ -99,11 +97,64 @@ CREATE TABLE SampleLike (
 -- DML：データ登録
 BEGIN TRANSACTION;
 
-INSERT INTO SampleLike (strcol) VALUES ('abcddd');
-INSERT INTO SampleLike (strcol) VALUES ('dddabc');
-INSERT INTO SampleLike (strcol) VALUES ('abdddc');
-INSERT INTO SampleLike (strcol) VALUES ('abcdd');
-INSERT INTO SampleLike (strcol) VALUES ('ddabc');
-INSERT INTO SampleLike (strcol) VALUES ('abddc');
+INSERT INTO SampleLike (strcol)
+VALUES ('abcddd');
+
+INSERT INTO SampleLike (strcol)
+VALUES ('dddabc');
+
+INSERT INTO SampleLike (strcol)
+VALUES ('abdddc');
+
+INSERT INTO SampleLike (strcol)
+VALUES ('abcdd');
+
+INSERT INTO SampleLike (strcol)
+VALUES ('ddabc');
+
+INSERT INTO SampleLike (strcol)
+VALUES ('abddc');
 
 COMMIT;
+
+-- 6-3
+-- 検索CASE
+SELECT shohin_mei,
+    CASE
+        WHEN shohin_bunrui = '衣服' THEN 'A:' || shohin_bunrui
+        WHEN shohin_bunrui = '事務用品' THEN 'B:' || shohin_bunrui
+        WHEN shohin_bunrui = 'キッチン用品' THEN 'C:' || shohin_bunrui
+        ELSE NULL
+    END AS abc_shohin_bunrui
+FROM Shohin;
+
+SELECT SUM(
+        CASE
+            WHEN shohin_bunrui = '衣服' THEN hanbai_tanka
+            ELSE 0
+        END
+    ) AS sum_tanka_ihuku,
+    SUM(
+        CASE
+            WHEN shohin_bunrui = 'キッチン用品' THEN hanbai_tanka
+            ELSE 0
+        END
+    ) AS sum_tanka_kitchen,
+    SUM(
+        CASE
+            WHEN shohin_bunrui = '事務用品' THEN hanbai_tanka
+            ELSE 0
+        END
+    ) AS sum_tanka_jim
+FROM Shohin;
+
+-- 単純CASE
+SELECT shohin_mei,
+    CASE
+        shohin_bunrui
+        WHEN '衣服' THEN 'A:' || shohin_bunrui
+        WHEN '事務用品' THEN 'B:' || shohin_bunrui
+        WHEN 'キッチン用品' THEN 'C:' || shohin_bunrui
+        ELSE NULL
+    END AS abc_shohin_bunrui
+FROM Shohin;
